@@ -1,0 +1,13 @@
+pl_orbperlim
+pl_orbsmaxlim
+pl_orbeccenlim
+pl_orbincllim
+pl_bmassjlim
+pl_radjlim
+ pl_denslim
+st_distlim
+st_optmaglim
+st_optmagblend
+st_tefflim
+st_masslim
+st_radlim
