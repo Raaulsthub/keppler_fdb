@@ -1,6 +1,7 @@
 import mysql.connector
 from csv_cleaning import csv_load, data_clean, add_planet_name
 
+# connecting to mysql local database
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -8,15 +9,30 @@ db = mysql.connector.connect(
     database="Kepler"
 )
 
+# loading csv
 data = csv_load("planets.csv")
+
+# data frame exploration
 print(data.describe(), end='\n\n')
+
+# cleaning data
 data = data_clean(data)
+
+# exploration of clean dataframe
 print(data.describe())
+
+# adding new column with planet's names
 data = add_planet_name(data)
+
+# checking if the add planet name function was successful
 print(data['pl_name'].head(10))
+
+#creating a cursor to the database
 cursor_db = db.cursor()
 
+# feeding database function
 for columm, instance in data.iterrows():
+    # feeding Corpo_Celeste table star wise
     try:
         cursor_db.execute("insert into Corpo_Celeste values (default,'"
                           + str(instance['pl_hostname'])
@@ -36,7 +52,8 @@ for columm, instance in data.iterrows():
         db.commit()
     except:
         print("Problema na adição de uma Estrela em Corpo_Celeste")
-
+        
+    # feeding Corpo_Celeste table planet wise
     try:
         cursor_db.execute("insert into Corpo_Celeste values (default,'"
                           + str(instance['pl_name'])
@@ -57,11 +74,13 @@ for columm, instance in data.iterrows():
     except:
         print("Problema na adição de um Planeta em Corpo_Celeste")
 
+    # finding Corpo_Celeste entity that refers to the star
     selSt = "select co_id from Corpo_Celeste where co_nome = '" + str(instance['pl_hostname']) + "'"
     cursor_db.execute(selSt)
     records = cursor_db.fetchall()
     idSt = records[0][0]
 
+    # feeding star entity
     try:
         cursor_db.execute("insert into Estrela values ("
                           + str(idSt)
@@ -96,11 +115,13 @@ for columm, instance in data.iterrows():
     except:
         print("Problema na adição de uma Estrela em Estrela")
 
+    # finding Corpo_Celeste entity that refers to the planet
     selPl = "select co_id from Corpo_Celeste where co_nome = '" + str(instance['pl_name']) + "'"
     cursor_db.execute(selPl)
     records = cursor_db.fetchall()
     idPl = records[0][0]
 
+    # feeding planet entity
     try:
         cursor_db.execute("insert into Planeta values ("
                           + str(idPl)
