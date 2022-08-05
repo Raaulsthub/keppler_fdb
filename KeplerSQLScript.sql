@@ -13,7 +13,7 @@ create table Corpo_Celeste (
     co_raio_erro2 float,
     primary key(co_id));
 
-select count(*) from Corpo_Celeste;
+select * from Corpo_Celeste;
 
 create table Estrela (
 	st_id int unsigned,
@@ -33,7 +33,7 @@ create table Estrela (
     primary key(st_id),
     foreign key(st_id) references Corpo_Celeste(co_id));
     
-select count(*) from Estrela;
+select * from Estrela;
 
 create table Planeta (
 	pl_id int unsigned,
@@ -62,4 +62,9 @@ create table Planeta (
     foreign key(pl_id) references Corpo_Celeste(co_id),
     foreign key(st_id) references Estrela(st_id));
     
-select count(*) from Planeta;
+select * from Planeta;
+
+ALTER TABLE Estrela DROP COLUMN st_asc_str;
+ALTER TABLE Estrela DROP COLUMN st_dec_str;
+
+UPDATE Planeta SET pl_massa_prov = null where pl_massa_prov = "null";
