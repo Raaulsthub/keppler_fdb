@@ -88,7 +88,7 @@ for columm, instance in data.iterrows():
                           + "',"
                           + str(instance['st_teff'])
                           + ","
-                          + str(instance['st_tefferr1'])
+                          + str(instance['st_tefferr1'])image.pngimage.png
                           + ","
                           + str(instance['st_tefferr2'])
                           + ")")
